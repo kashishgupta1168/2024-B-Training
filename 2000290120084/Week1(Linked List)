@@ -1,0 +1,125 @@
+//Insertion in linked list
+ if (head.next == null) return head;
+        ListNode headNew = head, tempOuter = head.next, lastInner = headNew, prevOuter = head;
+        while (tempOuter != null) {
+            ListNode tempOuterCopy = tempOuter;
+            tempOuter = tempOuter.next;
+            if (lastInner.val > tempOuterCopy.val) {
+                if (tempOuterCopy.val < headNew.val) {
+                    if (headNew.next != null && headNew.next.equals(tempOuterCopy)) {
+                        headNew.next = null;
+                    }
+                    tempOuterCopy.next = headNew;
+                    headNew = tempOuterCopy;
+                } else {
+                    ListNode fromHead = headNew, prevInner = headNew;
+                    while (fromHead != null) {
+                        if (tempOuterCopy.val < fromHead.val) {
+                            prevInner.next = tempOuterCopy;
+                            tempOuterCopy.next = fromHead;
+                            if (fromHead.next != null && fromHead.next.equals(tempOuterCopy)) fromHead.next = null;
+                            break;
+                        }
+                        prevInner = fromHead;
+                        fromHead = fromHead.next;
+                    }
+                }
+            } else {
+                tempOuterCopy.next = null;
+                lastInner.next = tempOuterCopy;
+                lastInner = lastInner.next;
+            }
+        }
+        return headNew;
+
+//Remove nth node from linked list
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        // if(head== null || (head.next==null && n==1)){
+        //     return null;
+        // }
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode slow = dummy;
+        ListNode fast = dummy;
+
+        for(int i=1;i<=n;i++)
+            fast = fast.next;
+        
+        while(fast.next != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+
+         return dummy.next;
+    }
+}
+//Delete node in a linked list
+
+class Solution {
+    public void deleteNode(ListNode node) {
+         while(node.next.next != null){
+            node.val = node.next.val;
+            node = node.next;
+        }
+        
+        node.val = node.next.val; 
+        node.next = null;
+    }
+}
+//Reverse Linked List
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, 
+    int right) {
+        if(left == right)
+        return head;
+
+        ListNode prev = null;
+        ListNode curr = head;
+
+        for(int i=0;i<left-1;i++){
+            prev = curr;
+            curr = curr.next;
+        }
+
+        ListNode next = curr.next;
+
+        ListNode first = prev;
+        ListNode newEnd = curr;
+
+        for(int i=0;curr!=null&& i<(right-left+1);i++){
+            curr.next = prev;
+            prev= curr;
+            curr = next;
+            if(next != null){
+             next = next.next;   
+            }
+
+            if(first!=null){
+                first.next = prev;
+            }
+            else{
+                head = prev;
+            }
+            newEnd.next =curr;
+           
+        }
+         return head;
+    }
+}
+//Middle of a linked list
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast !=null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
+ 
